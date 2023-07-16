@@ -19,18 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/dashboard', DashboardController::class,'index')
-//    ->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/dash',function (){
-    return view('dashboard');
-})
-    ->middleware(['auth'])
-    ->name('dashboard');
 
-
-Route::get('/dashboard',[DashboardController::class,'index'])
-    ->middleware(['auth','verified'])
-    ->name('dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -40,3 +29,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/dashboard.php';

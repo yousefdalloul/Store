@@ -3,7 +3,7 @@
 
 @section('breadcrumb')
     @parent
-    <il class="breadcrumb-item-active">Starter Page</il>
+    <li class="breadcrumb-item-active">Starter Page</li>
 @endsection
 @section('Content')
 
