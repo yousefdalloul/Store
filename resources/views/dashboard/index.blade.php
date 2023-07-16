@@ -1,11 +1,11 @@
 @extends('layouts.dashboard')
 @section('title','Starter Pager')
 
-
-
-
+@section('breadcrumb')
+    @parent
+    <il class="breadcrumb-item-active">Starter Page</il>
+@endsection
 @section('Content')
-
 
         <!-- Main content -->
 
@@ -70,4 +70,13 @@
 
 @endsection
 
+{{--@push('styles')--}}
+{{--    <link rel="stylesheet" href="{{asset('dist/css/style.min.css')}}">--}}
+{{--@endpush--}}
 
+{{--@push('styles')--}}
+{{--    <link rel="stylesheet" href="{{asset('dist/css/style2.min.css')}}">--}}
+{{--@endpush--}}
+{{--@push('scripts')--}}
+{{--    <script src="{{asset('dist/js/adminlte.min.js')}}"></script>--}}
+{{--@endpush--}}
