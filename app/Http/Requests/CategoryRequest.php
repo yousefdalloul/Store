@@ -22,7 +22,7 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this-> input('category');
+        $id = $this-> route('category');
         return Category::rules();
     }
 

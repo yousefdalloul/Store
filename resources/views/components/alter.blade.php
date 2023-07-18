@@ -1,6 +1,6 @@
-@if(session()->has('Success'))
+    @if(session()->has($type))
     <div class="alert alert-success">
-        {{session('success')}}
+        {{session($type)}}
     </div>
 @endif
 @if(session()->has('Info'))

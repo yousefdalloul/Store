@@ -14,6 +14,7 @@
     </div>
 
 <x-alter type="success"/>
+<x-alter type="info"/>
 
     <table class="table">
         <thead>

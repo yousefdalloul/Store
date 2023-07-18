@@ -45,6 +45,7 @@ class CategoriesController extends Controller
         $request->merge([
             'slug'=> Str::slug($request->post('name'))
         ]);
+
         $data =$request->except('image');
         $data['image'] = $this->uploadImage($request);
 
@@ -102,8 +103,11 @@ class CategoriesController extends Controller
             Storage::disk('public')->delete($old_image);
         }
         //PRG
-        return redirect()-> route('dashboard.categories.index')
-            ->with('Success',"Category Updated!");
+
+        return redirect()
+            ->route('dashboard.categories.index')  // Redirest to this route
+            ->with('success', "Category ({$category->name}) Updated!")
+            ->with('info', 'Category data changed!');
     }
 
     /**
@@ -130,6 +134,7 @@ class CategoriesController extends Controller
         if (!$request ->hasFile('image')) {
                 return;
         }
+
             $file = $request->file('image'); //upload fill object
             $path = $file->store('uploads',[
                 'disk' =>'public'
