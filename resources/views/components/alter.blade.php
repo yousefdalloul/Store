@@ -1,10 +1,10 @@
-    @if(session()->has($type))
+@if(session()->has($type))
     <div class="alert alert-success">
         {{session($type)}}
     </div>
 @endif
-@if(session()->has('Info'))
+@if(session()->has('info'))
     <div class="alert alert-info">
-        {{session('Info')}}
+        {{session('info')}}
     </div>
 @endif

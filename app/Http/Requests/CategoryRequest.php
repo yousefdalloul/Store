@@ -23,7 +23,7 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         $id = $this-> route('category');
-        return Category::rules();
+        return Category::rules($id);
     }
 
     public function messages()

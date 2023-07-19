@@ -17,7 +17,16 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories=Category::all();    //Return Collection Object => $categories->first();
+        $request = request();
+        $query = Category::query();
+
+        if ($name = $request->query('name')){
+            $query->where('name','LIKE',"%{$name}");
+        }
+        if ($status = $request->query('status')){
+            $query->where('status','=',$status);
+        }
+        $categories = $query->paginate(1);    //Return Collection Object => $categories->first();
         return view('dashboard.categories.index',compact('categories'));
     }
 
@@ -36,10 +45,10 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
-//        $clean_data = $request->validate(Category::rules(),[
-//            'required' =>'This field (:attribute)is Required',
-//            'unique' =>'This name is already exists!'
-//        ]);
+        $clean_data = $request->validate(Category::rules(),[
+            'name.required' =>'This field (:attribute)is Required',
+            'unique' =>'This name is already exists!'
+        ]);
 
         //Request merge
         $request->merge([
@@ -89,9 +98,11 @@ class CategoriesController extends Controller
     public function update(CategoryRequest $request, $id)
     {
         // $request->validate(Category::rule($id));
-
+        $request -> validate(Category::rules($id));
         $category = Category::findOrFail($id);
+
         $old_image = $category->image;
+
         $data =$request->except('image');
         $new_image = $this->uploadImage($request);
 

@@ -30,7 +30,7 @@ class Category extends Model
                 }
             ],
             'parent_id' =>[
-                'nullable','int','exists:category,id'
+                'nullable','int','exists:categories,id'
             ],
             'image' => [
                 'image', 'max:1048576','dimensions:min_width=100,min_height=100'
