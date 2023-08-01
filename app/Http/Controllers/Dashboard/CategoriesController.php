@@ -23,16 +23,25 @@ class CategoriesController extends Controller
         //FROM categories as a
         //LEFT JOIN categories as b ON b.id = parent_id
 
-        $categories =Category::join('categories as parents','parents.id','=','categories.parent_id')
+        $categories = Category::with('parent')
+            /*leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
             ->select([
                 'categories.*',
                 'parents.name as parent_name'
-            ])
+            ])*/
+            ->select('categories.*')
+            ->selectRaw('(SELECT COUNT(*) FROM products WHERE category_id = categories.id) as products_number')
+            //->addSelect(DB::raw('(SELECT COUNT(*) FROM products WHERE category_id = categories.id) as products_count'))
+//            ->withCount([
+//                'products as products_number' => function($query) {
+//                    $query->where('status', '=', 'active');
+//                }
+//            ])
             ->filter($request->query())
             ->orderBy('categories.name')
-            ->paginate();      //Return Collection Object => $categories->first();
+            ->paginate(); // Return Collection object
 
-        return view('dashboard.categories.index',compact('categories'));
+        return view('dashboard.categories.index', compact('categories'));
     }
 
     /**
@@ -67,15 +76,20 @@ class CategoriesController extends Controller
         $category = Category::create($data);
         //PRG
         return redirect()-> route('dashboard.categories.index')
-            ->with('Success','Category Created!');
+            ->with('success','Category Created!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Category $category)
     {
-        //
+//        if (Gate::denies('categories.view')) {
+//            abort(403);
+//        }
+        return view('dashboard.categories.show', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -122,28 +136,23 @@ class CategoriesController extends Controller
 
         return redirect()
             ->route('dashboard.categories.index')  // Redirest to this route
-            ->with('success', "Category ({$category->name}) Updated!")
-            ->with('info', 'Category data changed!');
+            ->with('success', "Category ({$category->name}) Updated!");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
        // Category::destroy($id);
 
         // as the same:
-        $category = Category::findOrFail($id);
+        //$category = Category::findOrFail($id);
         $category ->delete();
-
-        if($category->image){
-            Storage::disk('public')->delete($category->image);
-        }
 
         //PRG
         return redirect()-> route('dashboard.categories.index')
-            ->with('Success','Category Deleted!');
+            ->with('success','Category Deleted!');
     }
     public function uploadImage(Request $request){
 
@@ -156,6 +165,30 @@ class CategoriesController extends Controller
                 'disk' =>'public'
             ]);
             return $path;
+        }
+        public function trash()
+        {
+            $categories = Category::onlyTrashed()->paginate();
+            return view('dashboard.categories.trash',compact('categories'));
+        }
+        public function restore(Request $request,$id)
+        {
+            $category = Category::onlyTrashed()->findOrFail($id);
+            $category->restore();
+            return redirect()->route('dashboard.categories.trash')
+                ->with('success','Categories Restored!');
+        }
+        public function forceDelete($id)
+        {
+            $category = Category::onlyTrashed()->findOrFail($id);
+            $category->forceDelete();
+
+            if($category->image){
+                Storage::disk('public')->delete($category->image);
+            }
+
+            return redirect()->route('dashboard.categories.trash')
+                ->with('success','Categories Deleted Forever!');
         }
 
 }

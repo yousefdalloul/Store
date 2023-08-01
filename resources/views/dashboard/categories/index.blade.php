@@ -10,11 +10,12 @@
 @section('content')
 
     <div class="mb-5">
-        <a href="{{route('dashboard.categories.create')}}" class="btn btn-sm btn-outline-primary">Create</a>
+        <a href="{{route('dashboard.categories.create')}}" class="btn btn-sm btn-outline-primary mr-2">Create</a>
+        <a href="{{route('dashboard.categories.trash')}}" class="btn btn-sm btn-outline-warning">Trash</a>
     </div>
 
-<x-alter type="success"/>
-<x-alter type="info"/>
+    <x-alter type="success"/>
+    <x-alter type="info"/>
 
     <form action="{{\Illuminate\Support\Facades\URL::current()}}" method="get" class="d-flex justify-content-between mb-4">
         <x-form.input name="name" placeholder="Name" class="mx-2" :value="request('name')"/>
@@ -33,6 +34,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Parent</th>
+            <th>Parent #</th>
             <th>Status</th>
             <th>Created At</th>
             <th colspan="2"></th>
@@ -43,8 +45,10 @@
             <tr>
                 <td><img src="{{asset('storage/' . $category->image)}}" alt="" height="60"></td>
                 <td>{{$category->id}}</td>
-                <td>{{$category->name}}</td>
-                <td>{{$category->parent_name}}</td>
+                <td><a href="{{ route('dashboard.categories.show', $category->id) }}">{{ $category->name }}</a></td>
+
+                <td>{{$category->parent->name}}</td>
+                <td>{{$category->products_number}}</td>
                 <td>{{$category->status}}</td>
                 <td>{{$category->created_at}}</td>
                 <td>
@@ -62,7 +66,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="8">No Categories Defined.</td>
+                <td colspan="9">No Categories Defined.</td>
             </tr>
         @endforelse
         </tbody>

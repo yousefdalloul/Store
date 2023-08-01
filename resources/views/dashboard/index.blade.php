@@ -3,12 +3,11 @@
 
 @section('breadcrumb')
     @parent
-    <li class="breadcrumb-item-active">Starter Page</li>
+    <li class="breadcrumb-item active">Starter Page</li>
 @endsection
 @section('Content')
 
         <!-- Main content -->
-
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="card">
