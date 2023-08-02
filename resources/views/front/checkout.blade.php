@@ -12,7 +12,6 @@
                         <ul class="breadcrumb-nav">
                             <li><a href="{{ route('home') }}"><i class="lni lni-home"></i> Home</a></li>
                             <li><a href="{{ route('products.index') }}">Shop</a></li>
-                            @dd($cart)
                             <li>Checkout</li>
                         </ul>
                     </div>
