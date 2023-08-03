@@ -71,7 +71,11 @@ return [
     */
 
     'timezone' => 'Asia/Gaza',
+
     'currency' => 'USD',
+
+    'api_token'=> env('API_TOKEN'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

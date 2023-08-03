@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Middleware\ValidateSignature;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Validator;
@@ -22,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        JsonResource::withoutWrapping();
         \Illuminate\Support\Facades\Validator::extend('filter',function ($attribute,$value,$params) {
             return !in_array(strtolower($value), $params);
         }, 'The value is prohipted!');
