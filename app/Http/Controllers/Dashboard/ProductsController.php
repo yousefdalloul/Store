@@ -20,7 +20,7 @@ class ProductsController extends Controller
     {
         //$this->authorize('view-any', Product::class);
 
-        $products = Product::with(['category', 'store'])->paginate();
+        $products = Product::with(['category','store'])->paginate();
         // SELECT * FROM products
         // SELECT * FROM categories WHERE id IN (..)
         // SELECT * FROM stores WHERE id IN (..)
@@ -59,7 +59,10 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
+
         $product = Product::findOrFail($id);
+        $this->authorize('update', $product);
+
         //$this->authorize('update', $product);
         $tags = implode(',', $product->tags()->pluck('name')->toArray());
 
@@ -102,6 +105,7 @@ class ProductsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $this->authorize('delete',$product);
     }
 }

@@ -1,13 +1,17 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AdminsController;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\ProductsController;
 use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\Dashboard\RolesController;
+use App\Http\Controllers\Dashboard\UsersController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Front\CartController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'middleware' => ['auth:admin'],
+    'middleware' => ['auth:admin,web'],
     'as' => 'dashboard.',
     'prefix' => 'admin/dashboard',
     //'namespace'
@@ -26,6 +30,13 @@ Route::group([
 
     Route::resource('/categories',CategoriesController::class);
     Route::resource('/products',ProductsController ::class);
+    Route::resources([
+        'products'=>ProductsController::class,
+        'categories'=> CategoriesController::class,
+        'roles'=>RolesController::class,
+        'users'=>UsersController::class,
+        'admins'=>AdminsController::class,
+    ]);
 
 });
 

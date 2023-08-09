@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Validator;
@@ -17,6 +18,10 @@ class CategoriesController extends Controller
      */
     public function index()
     {
+        if (!Gate::allows('categories.view')){
+            abort(403);
+        }
+
         $request = request();
 
         //SELECT a.*,b.name as parent_name
@@ -49,6 +54,9 @@ class CategoriesController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('categories.view')){
+            abort(403);
+        }
         $parents = Category::all();
         $category = new Category();
         return view('dashboard.categories.create',compact('category','parents'));
@@ -59,6 +67,7 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('categories.create');
         $clean_data = $request->validate(Category::rules(),[
             'name.required' =>'This field (:attribute)is Required',
             'unique' =>'This name is already exists!'
@@ -84,9 +93,9 @@ class CategoriesController extends Controller
      */
     public function show(Category $category)
     {
-//        if (Gate::denies('categories.view')) {
-//            abort(403);
-//        }
+        if (Gate::denies('categories.view')) {
+            abort(403);
+        }
         return view('dashboard.categories.show', [
             'category' => $category
         ]);
@@ -97,6 +106,7 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('categories.update');
         $category = Category::findOrFail($id);
         //SELECT * FROM category WHERE id <> $id (لا تساوي)
         // AND (parent_id isNull OR parent_id <> $id)
@@ -144,6 +154,7 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
+        Gate::authorize('categories.delete');
        // Category::destroy($id);
 
         // as the same:

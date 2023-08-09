@@ -22,6 +22,7 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Product::class);
 
         $products = Product::filter($request->query())
             ->with('category:id,name','store:id,name','tags:id,name')
@@ -34,6 +35,8 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Product::class);
+
         $request->validate([
            'name'=>'required|string|max:255',
             'description'=>'nullable|string|max:255',
@@ -57,8 +60,11 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($id)
     {
+        $product = Product::findOrFail($id);
+        $this->authorize('view', $product);
+
         return new ProductResource($product);
         //return $product->load('category:id,name','store:id,name','tags:id,name');
     }
