@@ -16,14 +16,14 @@
     @stack('styles')
 </head>
 <body>
-{{--<!--[if lte IE 9]>--}}
-{{--<p class="browserupgrade">--}}
-{{--    You are using an <strong>outdated</strong> browser. Please--}}
-{{--    <a href="https://browsehappy.com/">upgrade your browser</a> to improve--}}
-{{--    your experience and security.--}}
-{{--</p>--}}
-{{--<![endif]-->--}}
-{{--<!-- Preloader -->--}}
+<!--[if lte IE 9]>
+<p class="browserupgrade">
+    You are using an <strong>outdated</strong> browser. Please
+    <a href="https://browsehappy.com/">upgrade your browser</a> to improve
+    your experience and security.
+</p>
+<![endif]-->
+<!-- Preloader -->
 <div class="preloader">
     <div class="preloader-inner">
         <div class="preloader-icon">
@@ -49,10 +49,10 @@
                                         <select name="currency_code" onchange="this.form.submit()">
                                             <option value="USD" @selected('USD' == session('currency_code'))>$ USD</option>
                                             <option value="EUR" @selected('EUR' == session('currency_code'))>€ EURO</option>
-                                            <option value="ILS" @selected('ILS' == session('currency_code'))>$ ILS</option>
-                                            <option value="JOD" @selected('JOD' == session('currency_code'))>₹ JOD</option>
-                                            <option value="SAR" @selected('SAR' == session('currency_code'))>¥ SAR</option>
-                                            <option value="QAR" @selected('QAR' == session('currency_code'))>৳ QAR</option>
+                                            <option value="ILS" @selected('ILS' == session('currency_code'))>₪ ILS</option>
+                                            <option value="JOD" @selected('JOD' == session('currency_code'))>JD JOD</option>
+                                            <option value="SAR" @selected('SAR' == session('currency_code'))>﷼ SAR</option>
+                                            <option value="QAR" @selected('QAR' == session('currency_code'))>﷼ QAR</option>
                                         </select>
                                     </form>
                                 </div>

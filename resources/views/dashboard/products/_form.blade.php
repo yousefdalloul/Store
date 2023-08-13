@@ -1,4 +1,3 @@
-
 <div class="form-group">
         <x-form.input label="Product Name" class="form-control-lg" role="input" name="name" :value="$product->name" />
     </div>
@@ -6,10 +5,10 @@
         <label for="">Category</label>
         <select name="category_id" class="form-control form-select">
             <option value="">Primary Category</option>
-@foreach(App\Models\Category::all() as $category)
-    <option value="{{ $category->id }}" @selected(old('category_id', $product->category_id) == $category->id)>{{ $category->name }}</option>
-    @endforeach
-    </select>
+        @foreach(App\Models\Category::all() as $category)
+          <option value="{{ $category->id }}" @selected(old('category_id', $product->category_id) == $category->id)>{{ $category->name }}</option>
+        @endforeach
+        </select>
     </div>
     <div class="form-group">
         <label for="">Description</label>

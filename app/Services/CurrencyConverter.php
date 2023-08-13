@@ -19,6 +19,9 @@ class CurrencyConverter
     {
         $q = "{$from}_{$to}";
         $response = Http::baseUrl($this->baseUrl)
+            ->withOptions([
+                'verify' => false, // Disable SSL verification
+            ])
             ->get('/convert', [
                 'q' => $q,
                 'compact' => 'y',

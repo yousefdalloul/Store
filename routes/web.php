@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\Front\Auth\TwoFactorAuthenticationController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckOutController;
@@ -49,8 +50,15 @@ Route::group([
 //    Route::post('checkout/create-payment', [PaymentsController::class, 'store'])
 //        ->name('checkout.payment');
 
-
 });
+
+Route::get('auth/{provider}/redirect',[SocialLoginController::class,'redirect'])
+    ->name('auth.provider.redirect');
+Route::get('auth/{provider}/callback',[SocialLoginController::class,'callback'])
+    ->name('auth.provider.callback');
+
+Route::get('auth/{provider}/callback',[SocialLoginController::class,'index']);
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
