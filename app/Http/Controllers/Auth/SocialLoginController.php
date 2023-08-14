@@ -7,16 +7,18 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Illuminate\Testing\Fluent\Concerns\Has;
 use Laravel\Socialite\Facades\Socialite;
-use mysql_xdevapi\Exception;
+use Illuminate\Support\Str;
 use Throwable;
 
 class SocialLoginController extends Controller
 {
-    public function redirect($provider){
-        return Socialite::driver($provider)->redirect();
+
+    public function redirect($provider)
+    {
+        return Socialite::driver($provider)
+            //->scopes(['https://www.googleapis.com/auth/drive.file'])
+            ->redirect();
     }
 
     public function callback($provider)

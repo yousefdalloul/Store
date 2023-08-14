@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('city');
             $table->string('postel_code')->nullable();
             $table->string('state')->nullable();
-            //$table->char('country',2);
 
         });
     }

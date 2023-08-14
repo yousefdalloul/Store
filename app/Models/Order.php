@@ -5,35 +5,37 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\This;
 
 class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'store_id','user_id','payment_method','status','payment_status',
+        'store_id', 'user_id', 'payment_method', 'status', 'payment_status',
     ];
+
     public function store()
     {
         return $this->belongsTo(Store::class);
     }
+
     public function user()
     {
         return $this->belongsTo(User::class)->withDefault([
-            'name'=>'Guest Customer'
+            'name' => 'Guest Customer'
         ]);
     }
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, '','order_id','product_id','id','id')
+        return $this->belongsToMany(Product::class, 'order_items', 'order_id', 'product_id', 'id', 'id')
             ->using(OrderItem::class)
-            ->as('order_item ')
+            ->as('order_item')
             ->withPivot([
-                'product_name','price','quantity','options',
-        ]);
+                'product_name', 'price', 'quantity', 'options',
+            ]);
     }
+
     public function addresses()
     {
         return $this->hasMany(OrderAddress::class);
@@ -41,31 +43,34 @@ class Order extends Model
 
     public function billingAddress()
     {
-        return $this->hasOne(OrderAddress::class,'order_id','id')
-            ->where('type','=','billing');
+        return $this->hasOne(OrderAddress::class, 'order_id', 'id')
+            ->where('type', '=', 'billing');
+
+        //return $this->addresses()->where('type', '=', 'billing');
     }
 
-    public function ShippingAddress()
+    public function shippingAddress()
     {
-        return $this->hasOne(OrderAddress::class,'order_id','id')
-            ->where('type','=','shipping');
+        return $this->hasOne(OrderAddress::class, 'order_id', 'id')
+            ->where('type', '=', 'shipping');
     }
+
     protected static function booted()
     {
-        static::create(function (Order $order){
-            //20230001,20230002
-            $order->number = Order::getMaxOrderNumber();
+        static::creating(function(Order $order) {
+            // 20230001, 20230002
+            $order->number = Order::getNextOrderNumber();
         });
     }
-    public static function getMaxOrderNumber()
+
+    public static function getNextOrderNumber()
     {
-        $year = Carbon::now()->year;
-        $number = Order::whereYear('created_at',$year)->max('number');
-        if ($number){
+        // SELECT MAX(number) FROM orders
+        $year =  Carbon::now()->year;
+        $number = Order::whereYear('created_at', $year)->max('number');
+        if ($number) {
             return $number + 1;
         }
-        //first_order
         return $year . '0001';
     }
-
 }

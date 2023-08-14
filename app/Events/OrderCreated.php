@@ -14,24 +14,26 @@ use Illuminate\Queue\SerializesModels;
 class OrderCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     public $order;
+
     /**
      * Create a new event instance.
+     *
+     * @return void
      */
     public function __construct(Order $order)
     {
-        $this->order =$order;
+        $this->order = $order;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
+     * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
-        return [
-            new PrivateChannel('channel-name'),
-        ];
+        return new PrivateChannel('channel-name');
     }
 }

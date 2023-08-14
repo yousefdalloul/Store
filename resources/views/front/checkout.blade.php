@@ -1,18 +1,19 @@
 <x-front-layout title="Checkout">
-    <x-slot name = "breadcrumb">
+
+    <x-slot name="breadcrumb">
         <div class="breadcrumbs">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="breadcrumbs-content">
-                            <h1 class="page-title">Checkout</h1>
+                            <h1 class="page-title">checkout</h1>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-12">
                         <ul class="breadcrumb-nav">
                             <li><a href="{{ route('home') }}"><i class="lni lni-home"></i> Home</a></li>
                             <li><a href="{{ route('products.index') }}">Shop</a></li>
-                            <li>Checkout</li>
+                            <li>checkout</li>
                         </ul>
                     </div>
                 </div>
@@ -99,7 +100,7 @@
                                                 <div class="single-form form-default">
                                                     <label>Country</label>
                                                     <div class="form-input form">
-                                                        <x-form.select name="addr[billing][country]" />
+                                                        <x-form.select name="addr[billing][country]" :options="$countries" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -188,7 +189,7 @@
                                                 <div class="single-form form-default">
                                                     <label>Country</label>
                                                     <div class="form-input form">
-                                                        <x-form.select name="addr[shipping][country]" />
+                                                        <x-form.select name="addr[shipping][country]" :options="$countries" />
                                                     </div>
                                                 </div>
                                             </div>

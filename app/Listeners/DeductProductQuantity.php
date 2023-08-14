@@ -23,28 +23,19 @@ class DeductProductQuantity
     /**
      * Handle the event.
      */
-    public function handle(OrderCreated $event): void
+    public function handle(OrderCreated $event)
     {
         $order = $event->order;
 
-        try {
-            //عملية الخصم من المنتجات :
-            //UPDATE products SET quantity = quantity - 1
+        foreach ($order->products as $product) {
+            $quantityToDeduct = $product->order_item->quantity;
 
-            foreach ($order->products as $product) {
-                $product->decrement('quantity', $product->order_item->quantity);
-
-                //        foreach (Cart::get() as $item){
-                //            Product::where('id','=',$item->product_id)
-                //            ->update([
-                //                'quantity'=> DB::row("quantity - ($item->quantity)")
-                //            ]);
-                //
-                //        }
+            // Check if the available quantity is greater than or equal to the quantity to deduct
+            if ($product->quantity >= $quantityToDeduct) {
+                $product->decrement('quantity', $quantityToDeduct);
+            } else {
+                // Handle insufficient quantity (e.g., log an error, notify admin, etc.)
             }
-        } catch (Throwable $e){
-
-
         }
     }
 }
