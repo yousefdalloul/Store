@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
@@ -7,6 +8,7 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.svg') }}" />
+
     <!-- ========================= CSS here ========================= -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/LineIcons.3.0.css') }}" />
@@ -15,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
     @stack('styles')
 </head>
+
 <body>
 <!--[if lte IE 9]>
 <p class="browserupgrade">
@@ -23,6 +26,7 @@
     your experience and security.
 </p>
 <![endif]-->
+
 <!-- Preloader -->
 <div class="preloader">
     <div class="preloader-inner">
@@ -33,6 +37,7 @@
     </div>
 </div>
 <!-- /End Preloader -->
+
 <!-- Start Header Area -->
 <header class="header navbar-area">
     <!-- Start Topbar -->
@@ -49,10 +54,10 @@
                                         <select name="currency_code" onchange="this.form.submit()">
                                             <option value="USD" @selected('USD' == session('currency_code'))>$ USD</option>
                                             <option value="EUR" @selected('EUR' == session('currency_code'))>€ EURO</option>
-                                            <option value="ILS" @selected('ILS' == session('currency_code'))>₪ ILS</option>
-                                            <option value="JOD" @selected('JOD' == session('currency_code'))>JD JOD</option>
-                                            <option value="SAR" @selected('SAR' == session('currency_code'))>﷼ SAR</option>
-                                            <option value="QAR" @selected('QAR' == session('currency_code'))>﷼ QAR</option>
+                                            <option value="ILS" @selected('ILS' == session('currency_code'))>$ ILS</option>
+                                            <option value="JOD" @selected('JOD' == session('currency_code'))>₹ JOD</option>
+                                            <option value="SAR" @selected('SAR' == session('currency_code'))>¥ SAR</option>
+                                            <option value="QAR" @selected('QAR' == session('currency_code'))>৳ QAR</option>
                                         </select>
                                     </form>
                                 </div>
@@ -60,18 +65,11 @@
                             <li>
                                 <div class="select-position">
                                     <form action="{{ URL::current() }}" method="get">
-                                    <select name="locale" onchange="this.form.submit()">
-                                        <option value="en" selected>English</option>
-                                        <option value="es">Español</option>
-                                        <option value="fr">Français</option>
-                                        <option value="ar">العربية</option>
-                                        <option value="in">हिन्दी</option>
-                                        <option value="cn">বাংলা</option>
-
-{{--                                        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)--}}
-{{--                                            <option value="{{ $localeCode }}" @selected($localeCode == App::currentLocale())>{{ $properties['native'] }}</option>--}}
-{{--                                        @endforeach--}}
-                                    </select>
+                                        <select name="locale" onchange="this.form.submit()">
+                                            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                                <option value="{{ $localeCode }}" @selected($localeCode == App::currentLocale())>{{ $properties['native'] }}</option>
+                                            @endforeach
+                                        </select>
                                     </form>
                                 </div>
                             </li>
@@ -83,7 +81,7 @@
                         <ul class="useful-links">
                             <li><a href="index.html">{{ trans('Home') }}</a></li>
                             <li><a href="about-us.html">@lang('About Us')</a></li>
-                            <li><a href="contact.html">{{ __('Contact Us' )}}</a></li>
+                            <li><a href="contact.html">{{ __('Contact Us') }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -105,7 +103,7 @@
                         @else
                             <div class="user">
                                 <i class="lni lni-user"></i>
-                                {{Lang::get('Hello')}}
+                                {{ __('Hello')}}
                             </div>
                             <ul class="user-login">
                                 <li>
@@ -308,10 +306,13 @@
     <!-- End Header Bottom -->
 </header>
 <!-- End Header Area -->
+
 <!-- Start Breadcrumbs -->
 {{ $breadcrumb ?? '' }}
 <!-- End Breadcrumbs -->
+
 {{ $slot }}
+
 <!-- Start Footer Area -->
 <footer class="footer">
     <!-- Start Footer Top -->
@@ -458,10 +459,12 @@
     <!-- End Footer Bottom -->
 </footer>
 <!--/ End Footer Area -->
+
 <!-- ========================= scroll-top ========================= -->
 <a href="#" class="scroll-top">
     <i class="lni lni-chevron-up"></i>
 </a>
+
 <!-- ========================= JS here ========================= -->
 <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/js/tiny-slider.js') }}"></script>
@@ -471,4 +474,5 @@
 @stack('scripts')
 
 </body>
+
 </html>

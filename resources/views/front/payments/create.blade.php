@@ -7,19 +7,19 @@
                     <form action="" method="post" id="payment-form">
                         <div id="payment-element"></div>
                         <button type="submit" id="submit" class="btn">
-                            <span id="button-text">Pay Now</span>
-                            <span id="spinner" style="display:none;">Processing...</span>
+                            <span id="button-text">Pay now</span>
+                            <span id="spinner" style="display: none;">Processing...</span>
                         </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
+    <!-- JavaScript code (same as in the previous snippet) -->
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // This test publishable API key.
-        const stripe = Stripe("{{ config('services.stripe.published_key') }}");
+        // This is your test publishable API key.
+        const stripe = Stripe("{{ config('services.stripe.publishable_key') }}");
 
         let elements;
 
@@ -34,7 +34,7 @@
             const {
                 clientSecret
             } = await fetch("{{ route('stripe.paymentIntent.create', $order->id) }}", {
-                method: "post",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },

@@ -18,11 +18,22 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
+    public function register()
     {
         $this->app->bind('currency.converter', function () {
             return new CurrencyConverter(config('services.currency_converter.api_key'));
         });
+
+        $this->app->bind('stripe.client', function() {
+            return new \Stripe\StripeClient(config('services.stripe.secret_key'));
+        });
+
+        if (App::environment('production')) {
+            $this->app->singleton('path.public', function () {
+                return base_path('public_html');
+            });
+        }
+
     }
 
     /**
@@ -30,7 +41,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         JsonResource::withoutWrapping();
 
         Validator::extend('filter', function ($attribute, $value, $params) {

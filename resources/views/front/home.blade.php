@@ -1,4 +1,5 @@
-<x-front-layout>
+<x-front-layout title="home">
+
     <!-- Start Hero Area -->
     <section class="hero-area">
         <div class="container">

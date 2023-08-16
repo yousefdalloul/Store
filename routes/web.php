@@ -6,6 +6,7 @@ use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckOutController;
 use App\Http\Controllers\Front\CurrencyConverterController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\OrdersController;
 use App\Http\Controllers\Front\PaymentsController;
 use App\Http\Controllers\front\ProductsController;
 use App\Http\Controllers\ProfileController;
@@ -78,6 +79,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::any('stripe/webhook',[StripeWebhooksController::class,'handel']);
+
+Route::get('/orders/{order}', [OrdersController::class, 'show'])
+    ->name('orders.show');
 
 //require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';
